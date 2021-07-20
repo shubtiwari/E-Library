@@ -1,64 +1,64 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-<style>
-<?php include 'Style.css';?>
-</style>
-  </head>
-  <body>
-  <?php include 'Navbar.php' ;?>
-<div>
-  <img src="image/library.jpg" alt="Dun-Library" width="1200" height="700">
-  <div class="centered" style="font-size:70px"> Doon Library
-  <form class="d-flex">
-      <input class="form-control mr-3" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-</div>
-</div>
-  
-  <div class="row">
-  <div class="column">
-    <div class="card">
-    <img src="image/img.jpg" class="card-img-top" alt="...">
-      <h3>HG Wells</h3>
-      <p class="card-text"> Some quick example text to build on the card title and make up the bulk of the card's co</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-    <img src="image/Harry.jpg" class="card-img-top" alt="...">
-      <h3>Card 1</h3>
-      <p class="card-text"> Some quick example text to build on the card title and make up the bulk of the card's co</p>
-    </div>
-  </div>
-  
-  <div class="column">
-    <div class="card">
-    <img src=" image/hound.jpg" class="card-img-top" alt="...">
-      <h3>Card 1</h3>
-      <p class="card-text"> Some quick example text to build on the card title and make up the bulk of the card's co</p>
-    </div>
-  </div>
-  
-  <div class="column">
-    <div class="card">
-    <img src="image/Elon-Musk.png" class="card-img-top" alt="...">
-      <h3>Card 1</h3>
-      <p class="card-text"> Some quick example text to build on the card title and make up the bulk of the card's co</p>
-    </div>
- </div>
-
-</div>
-</div>
-<?php include 'Footer.php' ;?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-
-   
-  </body>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+  <style>
+    <?php include 'style.css';?>
+  </style>
+   <body>
+    <?php include 'navbar.php';?>
+    <br>
+     <div class="container-fluid">
+        <img class="img-fluid"  src="image/library.jpg" width="2500px" >
+           <div class="centered">
+             <form class="form-inline"  method="GET">
+               <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>    
+          </div>
+     </div>
+    
+     <br> 
+    
+    <?php 
+      include 'conn.php';
+      if(isset($_GET['search']))
+      {
+          $value = $_GET['search'];
+          $query = " SELECT * FROM books WHERE book LIKE '%$value%' OR author LIKE '%$value%' ";   
+          $query_run = mysqli_query($con, $query);
+          if(mysqli_num_rows($query_run) > 0)
+               {
+                 foreach($query_run as $items)
+                 {
+     ?>
+                    <div class="container">
+                      <div class="card-group" >
+                          <div class="card text-white bg-success mb-3">
+                            <img src="" class="card-img-top">
+                              <div class="card-body">
+                                <h5 class="card-title"><?= $items['book']; ?></h5>
+                                <h6 class="card-title">by -<?= $items['author']; ?></h6>
+                                <p class="card-text"><?= $items['discription']; ?></p>
+                              </div>
+                          </div>
+                      </div>
+                    <?php
+                 }
+             }
+          else 
+           {
+            echo '<script> alert("Sorry No Book Found!") </script>';
+           }    
+      }
+                    ?>            
+<?php include 'footer.php';?>
+</body>
 </html>
+  
+  

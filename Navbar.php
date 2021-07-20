@@ -1,11 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Dun Library</a>
-    <div class="navbar-end" id="navbarbutton">
-        <button class="btn btn-outline-success me-2" type="button">Login</button>
-        <button class="btn btn-outline-success me-2" type="button">Signup</button>
-    </div>
-
+    <a class="navbar-brand" href="index.php">E-Library</a>
+      <div class="navbar-button">
+        <?php
+          if (isset($_SESSION['role']) && ($_SESSION['role'] == 'admin')) 
+        {
+          ?>
+          <a href="add_admin.php" class="btn btn-outline-success " role="button" target="_blank" >Add Admin</a>
+          <a href="login.php" class="btn btn-outline-success " role="button">Logout</a>
+          <?php 
+        }
+        elseif (isset($_SESSION['role']) && ($_SESSION['role'] == 'user'))
+        { 
+          ?>
+          <a href="Login.php" class="btn btn-outline-success me-2" role="button">Logout</a>
+        <?php
+        }
+        else 
+        { 
+            ?>
+            <a href="Login.php" class="btn btn-outline-success me-2" role="button">Login</a>
+            <a href="Signup.php" class="btn btn-outline-success me-2" role="button">Signup</a>
+            <?php
+        }
+          ?>    
+      </div>
   </div>
 </nav>
+
 
