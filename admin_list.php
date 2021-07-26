@@ -1,6 +1,8 @@
 <?php
-  include 'conn.php';
+ include 'conn.php';
+ include 'session.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +16,12 @@
     <?php include 'style.css';?>
   </style>
 <body>
-  <?php include 'navbar.php';?>
-  <?php include 'sidenav.php';?>
+  <?php include 'navbar.php';
+        include 'sidenav.php';?>
     <h1>Admin List</h1>
       <div class="container">
         <div class="row">
-          <div class="col">
+        <div class="col-xl-9 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3 ">
             <table class="table table-striped" >
               <thead>
                 <tr>
@@ -31,6 +33,7 @@
                 </tr>
               </thead>
               <?php
+                  
                     $q = " SELECT * FROM `user` WHERE role= 'admin' ";
                     $result = mysqli_query($con, $q);
                     $counter =0;

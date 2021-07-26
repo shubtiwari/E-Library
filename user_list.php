@@ -1,3 +1,8 @@
+<?php
+ include 'conn.php';
+ include 'session.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,22 +18,21 @@
 <body>
   <?php include 'navbar.php';
         include 'sidenav.php';?>
-          <h1>User List</h1>
             <div class="container">
               <div class="row">
-                <div>
+              <div class="col-xl-10 offset-xl-2 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3">
+              <h1>User List</h1>
                   <table class="table table-striped" >
                         <thead>
                           <tr>
                             <th scope="col">S.No</th>
                               <th scope="col">Name</th>
-                                <th scope="col">Email</th>
                               <th scope="col">ID</th>
                             <th scope="col">Action</th>  
                           </tr>
                         </thead>
                           <?php
-                              include 'conn.php';
+                             
                               $q = " SELECT * FROM `user` WHERE role= 'user' ";
                               $result = mysqli_query($con, $q);
                               $counter =0;
@@ -38,9 +42,8 @@
                           <tr>
                             <th scope="row"><?php echo ++$counter; ?></th>
                               <td><?php echo $row['name'] ?></td>
-                                <td><?php echo $row['email'] ?></td>
                                 <td><?php echo $row['user_id'] ?></td>                        
-                            <td><a href="admin_remove.php?user_id= <?php echo $row['user_id'];?>" class="btn btn-outline-success me-2 " role="button" >Remove</a></td>
+                            <td><a href="user_list_remove.php?user_id= <?php echo $row['user_id'];?>" class="btn btn-outline-success me-2 " role="button" >Remove</a></td>
                           </tr>
                       </tbody>
                     <?php } ?>

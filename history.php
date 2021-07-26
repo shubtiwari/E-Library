@@ -1,3 +1,8 @@
+<?php
+ include 'conn.php';
+ include 'session.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +20,11 @@
 <?php include 'navbar.php';
       include 'sidenav.php';
 ?>
+<br>
   <h1> History </h1>
     <div class="container">
         <div class="row">
-          <div class="col-9 offset-0">
+        <div class="col-xl-10 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3">
             <table class="table table-striped" >
               <thead>
                 <tr>
@@ -26,15 +32,13 @@
                   <th scope="col">Book Name</th>
                   <th scope="col">Author Name </th>
                   <th scope="col">Issue Date</th>
+                
                 </tr>
               </thead>
                   <?php
-                      include 'conn.php';
-                      $b_id = $_SESSION['b_id'];
-                      $u_id = $_SESSION['u_id'];
-                      $sql_Check = "UPDATE records SET status = 'completed' where  book_id = $b_id";
-                      $result_check = mysqli_query($con, $sql_Check);
-                      $q = " SELECT book,author,discription,issue  FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'completed' AND user_id= '$u_id'";
+                     
+                     // $u_id = $_SESSION['u_id'];
+                      $q = " SELECT book,author,discription,issue  FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'completed' AND user_id= '{$_SESSION['u_id']}'";
                       $result = mysqli_query($con, $q);
                       $counter =0;
                       while($row = mysqli_fetch_assoc($result))
@@ -46,6 +50,7 @@
                           <td><?php echo $row['book'] ?></td>
                           <td><?php echo $row['author'] ?></td> 
                           <td><?php echo $row['issue'] ?></td> 
+                          
                       </tbody>
                     <?php }?>
            </div>

@@ -25,6 +25,10 @@
     
      <br> 
     
+     <div class="container">
+            <div class="row cols-3">
+              <div>
+              
     <?php 
       include 'conn.php';
       if(isset($_GET['search']))
@@ -37,8 +41,7 @@
                  foreach($query_run as $items)
                  {
      ?>
-                    <div class="container">
-                      <div class="card-group" >
+                          <div class="card-group" >
                           <div class="card text-white bg-success mb-3">
                             <img src="" class="card-img-top">
                               <div class="card-body">
@@ -47,7 +50,6 @@
                                 <p class="card-text"><?= $items['discription']; ?></p>
                               </div>
                           </div>
-                      </div>
                     <?php
                  }
              }
@@ -56,7 +58,10 @@
             echo '<script> alert("Sorry No Book Found!") </script>';
            }    
       }
-                    ?>            
+                    ?>          
+                    </div>  
+    </div>
+    </div>
 <?php include 'footer.php';?>
 </body>
 </html>

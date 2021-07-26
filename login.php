@@ -1,34 +1,40 @@
-<?php
-
-include 'conn.php';
-if (isset($_POST['done']))
-{
+<?php         
+    include 'conn.php'; 
+if (isset($_POST['login']))
+{   
     $email =$_POST["email"];
     $password =$_POST["psw"];
     $query=" SELECT * FROM `user` WHERE email='$email' AND password='$password'";
     $result= mysqli_query($con,$query);
-    $row= mysqli_fetch_array($result);
-    $dbpassword = $row['password'];
-      $_SESSION['email'] = $email;
-    $_SESSION['u_id'] = $row['user_id'];
-    $_SESSION['role'] = $row['role'];
-    
-   
-     if($row["role"] =="admin" )
-             {
-                header('location:add_book.php');// echo("{$_SESSION['u_id']}"."<br />");// 
-            }
-         if($row["role"] =="user" )
-            {
-                header('location:user_dashboard.php');     // echo("{$_SESSION['u_id']}"."<br />");
-            }
-        else {
-            echo '<script> alert("Invalid Credential") </script>';
-             }
-           
-}
+    $row= mysqli_fetch_array($result) ;
+    $db_password = $row['password'];  
+    $status = $row['status'];
+    session_start();
+    $_SESSION['u_id'] =$row['user_id'];
+    $_SESSION['role'] =$row['role'];
 
+   if($db_password == $password)
+   { 
+         if($row["role"] =="admin" )
+              {
+              
+                 header('location:add_book.php');
+             }
+               elseif( $row["role"] =="user" and $status =="verified" )
+                    {         
+                    header('location:user_dashboard.php');   
+                     }    
+               else 
+                     {
+                    echo '<script> alert("It seems like you are not verified yet. So please click on forgot password to verify yourself..") </script>';
+                    }
+   }
+      else{
+             echo '<script> alert("Invalid Credential") </script>';
+          }
+}      
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,22 +48,28 @@ if (isset($_POST['done']))
  <?php include 'style.css';?>
 </style>
     <body>
-    <?php include 'navbar.php';?>
+     <?php include 'navbar.php';?>
         <div class="container" >
-            <h1>Login</h1>
-                <form action="#" method="post">
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" name="email" class="form-control"  placeholder="Enter Email" required>
-                            <label for="password">Password</label>
-                            <input type="password" name="psw" class="form-control" placeholder="Enter password" required>
-                            <br>
-                            <input type="checkbox" checked="checked" name="remember"> Remember me
-                            <p class="badge badge-pill badge-primary offset-6"> <a href="reset.php"> Forgot password?</a>></p>
-                            <input type="submit" class="btn btn-outline-success offset-5" name="done" value="login">      
-                            <a href="Signup.php" class="btn btn-outline-success offset-0" role="button">Signup</a>
-                        </div>
-                </form>
+            <br>
+            <h1>Login</h1>  
+            <form action="#" method="post">
+                <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control"  placeholder="Enter Email" required>
+                <label for="password">Password</label>
+                <input type="password" name="psw" class="form-control" placeholder="Enter password" required>
+                <br>
+                <input type="checkbox" checked="checked" name="remember"> Remember me 
+                <br>
+                <p class="badge badge-pill badge-primary "> <a href="forget.php"> Forgot password?</a>></p>
+                <br>
+                <input type="submit" class="btn btn-outline-success offset-5" name="login" value="login">      
+                <a href="Signup.php" class="btn btn-outline-success offset-0" role="button">Signup</a>
+                </div>
+            </form>
         </div>
     </body>
 </html>
+
+
+     

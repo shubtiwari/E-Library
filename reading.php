@@ -1,3 +1,13 @@
+<?php
+     include 'conn.php';   
+     include 'session.php';
+     if(isset($_GET['complete_book_id']))
+     {
+       $cb_id = $_GET['complete_book_id'];
+       $sql_Check = "UPDATE records SET status = 'completed' where  book_id = $cb_id";
+       $result_check = mysqli_query($con, $sql_Check);
+     }
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,49 +23,38 @@
   <?php include 'style.css';?>
 </style>
 <body>
-  <?php include 'navbar.php';?>
-    <h1> Reading </h1>
-      <?php     
-         include 'sidenav.php';
-         include 'conn.php';
-            $b_id = $_SESSION['b_id'];
-            $u_id = $_SESSION['u_id'];
-            $status = "reading";
-            $sql_Check = "SELECT * FROM records where user_id = $u_id AND book_id = $b_id";
-            $result_check = mysqli_query($con, $sql_Check);
-            $current_date = date("d-m-Y ");
+  <?php include 'navbar.php';
+        include 'sidenav.php';?>
+        <br>
+        <div class="container">
+            <div class="row">
+              <div class="col-xl-10 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3">
+               <h1> Reading </h1>
 
-            if (mysqli_num_rows($result_check) == 1)  { 
-                 echo '<script> alert("product already exist in Reading list") </script>';
-             }
-            else {
-                        // Data insert into records table
-                    $insertWishlist = "INSERT INTO records (user_id, book_id, status, issue) VALUES ('$u_id', '$b_id','$status','$current_date')";   
-                    mysqli_query($con, $insertWishlist); 
-                 }
-                    $q = " SELECT book,author,discription  FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'reading' AND user_id= '$u_id'";
-                    $result = mysqli_query($con, $q);
-                    $counter =0;
-                    while($row = mysqli_fetch_assoc($result)){   
-        ?>         
-                    <div class="container">
-                            <div class="row">
-                                <div class="col-9 offset-2">
-                                  <div class="card-group">
-                                   <div class="card text-white bg-success mb-3">
-                                     <img src="" class="card-img-top" alt="...">
-                                       <div class="card-body">
-                                         <h5 class="card-title"><?php echo $row['book'] ?></h5>
-                                           <h6 class="card-title">by - <?php echo $row['author'] ?> </h6>
-                                           <p class="card-text"><?php echo $row['discription'] ?></p>
-                                      </div>
-                                    <div class="btn-group" role="group" >          
-                                        <a href="history.php?book_id=<?=$_SESSION['b_id']; ?>" class="btn btn btn-primary offset-0"  role="button"  target="_blank">Complete</a>  
-                                    </div>
+
+             <?php          
+                $q = " SELECT * FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'reading' AND user_id= '{$_SESSION['u_id']}'";           
+                $result = mysqli_query($con, $q);
+                $counter =0;                  
+                while($row = mysqli_fetch_assoc($result))
+                {   
+            ?>               
+                                <div class="card-group">
+                                 <div class="card text-white bg-success mb-3">                   
+                                    <br> 
+                                    <h5 class="card-title"><?php echo ++$counter; ?></h5>
+                                     <h6 class="card-title"><?php echo $row['book'] ?></h6>
+                                     <h7 class="card-title">by - <?php echo $row['author'] ?> </h7>
+                                     <p class="card-text"><?php echo $row['discription']  ?></p>
+                                     <p class="card-text"> Book ID <?php echo $row['book_id']  ?></p>  
+                                    
+                                     <div class="btn-group" role="group" >          
+                                     <a href="reading.php?complete_book_id=<?= $row['book_id'];?>" class="btn btn btn-primary offset-0"  role="button" >Complete</a>  
                                   </div>
                                 </div>
-                            </div>
-                            <?php } ?>
-                    </div>  
+          <?php }  ?>
+          </div>
+                          </div>
+      </div>  
    </body>
 </html>

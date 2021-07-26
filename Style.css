@@ -48,7 +48,7 @@ div.content {
   height: 1000px;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 580px) {
   .sidebar {
     width: 100%;
     height: auto;
@@ -62,12 +62,24 @@ div.content {
   position: relative;
   text-align: center;
   color: white;
-}
+ }
 .centered {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-
+.para{
+  text-align: center;
+}
+.product{
+  border: 1px solid #eaeaec;
+  margin: -1px 19px 3px -1px;
+  padding: 10px;
+  text-align: center;
+  background-color: #efefef;
+}
+.p{
+  
+  color: #04AA6D;
+}

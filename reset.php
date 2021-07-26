@@ -1,3 +1,35 @@
+<?php
+  include 'conn.php';
+  session_start();  
+  if(isset($_POST['reset']))
+  {  
+      $new_psw = mysqli_real_escape_string($con, $_POST['new_psw']);
+      $gen_otp = mysqli_real_escape_string($con, $_POST['gen_otp']);
+      $reset_email = $_SESSION['reset_email'];
+      $q = " SELECT * FROM user WHERE email = '$reset_email'";
+      $result = mysqli_query($con, $q);
+      $row= mysqli_fetch_array($result);
+      //$dbotp= $row['otp'];
+        if ($row['otp']==$gen_otp AND $row['email'] ==$reset_email ) {
+          $reset_query =  "UPDATE `user` SET `otp` = '0', `password`='$new_psw', `status`='verified' WHERE `email` ='$reset_email'";   
+          $reset_check = mysqli_query($con, $reset_query);    
+          echo '<script> alert("Password Update") </script>';
+          header('location:login.php');
+        }
+        else{
+        
+          
+          echo '<script> alert("Invalid OTP") </script>';
+
+        }
+    
+      }
+      ;?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,13 +46,17 @@
   <?php include 'navbar.php';?>
    <br>
      <div class="container" >
-       <h1>Forget Password</h1>
-         <form>
+       <h1>Forgot Password</h1>
+         <form action=reset.php method = "POST">
            <div class="form-group">
-              <label for="email">Email address</label>
-               <input type="email" class="form-control" id="forget_email" placeholder="Enter Email ">
+           <label for="text">Enter Generated OTP</label>
+               <input type="text" class="form-control" name="gen_otp" placeholder="Enter Generated OTP ">
                <br>
-              <a href="#" class="btn btn-outline-success me-2" id ="forgetbtn" role="button"> Send </a>
+              <label for="text">New Password</label>
+               <input type="text" class="form-control"  name="new_psw" placeholder="New Password ">
+               <br>
+              
+              <button type="submit" name="reset" role="button" class="btn btn-outline-success offset-2 ">Reset</button>            
           </div>
        </form>
      </div>

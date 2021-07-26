@@ -1,3 +1,8 @@
+<?php
+                    include 'conn.php';  
+                    include 'session.php';
+                  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,28 +18,14 @@
 </style>
  <body>
     <?php
-      include 'conn.php';  
-      include 'navbar.php';
-      include 'sidenav.php';
-          $b_id = $_SESSION['b_id'];
-          $u_id = $_SESSION['u_id'];
-          $status = "wishlist";
-          $sql_Check = "SELECT * FROM records where user_id = $u_id AND book_id = $b_id";
-          $result_check = mysqli_query($con, $sql_Check);
-           if (mysqli_num_rows($result_check) == 1) { 
-              echo '<script> alert("product already exist in wishlist") </script>';
-            
-          }
-          else{
-               $insertWishlist = "INSERT INTO records (user_id, book_id, status) VALUES ('$u_id', '$b_id','$status')";   
-               mysqli_query($con, $insertWishlist);
-              }
+     include 'navbar.php';
+     include 'sidenav.php';
      ?>
-
-<h1> Wishlist </h1>
+     <br>
     <div class="container">
             <div class="row">
-            <div class="col-9 offset-0">
+            <div class="col-xl-10 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3">
+            <h1> Wishlist </h1>
               <table class="table table-striped" >
                   <thead>
                       <tr>
@@ -46,7 +37,9 @@
                       </tr>
                   </thead> 
                   <?php
-                        $q = " SELECT book,author  FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'wishlist' AND user_id= '$u_id'";
+                               
+                  // var_dump($u_id);
+                        $q = " SELECT * FROM `books` INNER JOIN records ON books.book_id = records.book_id WHERE status= 'wishlist' AND user_id= '{$_SESSION['u_id']}'";
                         $result = mysqli_query($con, $q);
                         $counter =0;
                         while($row = mysqli_fetch_assoc($result)){   
@@ -55,12 +48,19 @@
                       <tr>
                         <th scope="row"><?php echo ++$counter; ?></th>
                           <td><?php echo $row['book'] ?></td>
-                              <td><?php echo $row['author'] ?></td>                            
-                          <td><a href="#" class="btn btn-outline-success me-2"  role="button">Read </a></td>
-                        <td><a href="#" class="btn btn-outline-success me-2"  role="button">Remove </a></td>
+                              <td><?php echo $row['author'] ?></td>                                             
+                          <td> <a href="wishlist_read.php?wishlist_read_id=<?= $row['book_id'];?>" class="btn btn-outline-success me-2" name= wishlist_read role="button" >Read</a> </td>
+                          <td> <a href="wishlist_remove.php?wishlist_remove_id=<?= $row['book_id'];?>" class="btn btn-outline-success me-2" name= wishlist_remove role="button" >Remove</a> </td>
                         </tr>
                     </tbody>
-                    <?php }?>
+                    <?php }
+                    
+                    
+                    
+                    
+                    
+                    
+                    ?>
               </table>
             </div>
             </div>

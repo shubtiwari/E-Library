@@ -1,5 +1,7 @@
 <?php
  include 'conn.php';
+ include 'session.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@
       <?php include 'sidenav.php';?>
       <div class="container">
          <div class="row">
-            <div>
+         <div class="col-xl-9 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3 ">
                <h1>Book List</h1>
                    <table class="table table-striped" >
                       <thead>

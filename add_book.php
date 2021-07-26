@@ -1,5 +1,6 @@
 <?php
-  include 'conn.php';
+ include 'conn.php';
+ include 'session.php';
   if(isset($_POST['done']))
   {
       $book = $_POST['book'];
@@ -8,6 +9,7 @@
       $url = $_POST['url']; 
       $q = " INSERT INTO `books`(`book`, `author`, `discription`, `img_url`) VALUES ('$book','$author','$disc','$url')";
       $result = mysqli_query($con, $q);
+    
   }
 ?>
 <!DOCTYPE html>
@@ -27,9 +29,11 @@
     <?php include 'sidenav.php';?>
       <h1>Add Book</h1>
         <div class="container">
-          <div class="row">
-            <div class="col-10 offset-1">
-             <form action="#"method = "post">
+          <div class="row">    
+       
+           
+            <div class="col-xl-9 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3 ">
+             <form action="#" method = "post">
                <div class="form-group">
                     <label for="Book">Enter Book Name:</label>
                     <input type="text" class="form-control"  name ="book" placeholder="Enter Book Name ">
@@ -37,9 +41,7 @@
                     <input type="text" class="form-control"  name ="author" placeholder="Enter Author Name ">
                     <label for="Description">Discription:</label>
                     <input type="text" class="form-control"  name ="disc" placeholder="Enter Book Discription ">
-                    <label for="img_url">Image url:</label>
-                    <input type="text" class="form-control"  name ="url" placeholder="Enter Image url ">
-               </div>
+                    </div>
                     <br>
                     <button type="submit" name ="done" class="btn btn-outline-success offset-4 "> Add </button>
             </form>

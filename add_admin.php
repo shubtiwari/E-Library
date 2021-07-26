@@ -1,5 +1,11 @@
 <?php
-  include 'conn.php';
+ include 'conn.php';
+ include 'session.php';
+?>
+
+
+<?php
+ // include 'conn.php';
   if(isset($_POST['done']))
   {
       $username = $_POST['username'];
@@ -7,8 +13,10 @@
       $Mobile = $_POST['mobile'];
       $password = $_POST['psw'];
       $role = 'admin';
-      $q = " INSERT INTO `user`(`name`, `email`, `mobile`, `password`, `role`) VALUES ('$username','$Email','$Mobile','$password','$role')";
-      $result = mysqli_query($con, $q);            
+      $status ='verified';
+      $q = " INSERT INTO `user`(`name`, `email`, `mobile`, `password`, `role`,`status`) VALUES ('$username','$Email','$Mobile','$password','$role','$status')";
+      $result = mysqli_query($con, $q);     
+      echo '<script> alert("Admin Added Successfully") </script>';       
 }
 ?>
 <!DOCTYPE html>
@@ -29,7 +37,7 @@
     <h1>Add Admin</h1>
      <div class="container">
       <div class="row">
-         <div class="col-8 offset-3"> 
+         <div class="col-xl-9 offset-xl-1 col-lg-9 offset-lg-2 col-md-10 offset-md-2 col-sm-9 offset-sm-3 "> 
             <form action="#"method = "post">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" name="username" placeholder="Enter Name " required>
